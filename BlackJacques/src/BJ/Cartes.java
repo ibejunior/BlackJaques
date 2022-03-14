@@ -120,7 +120,7 @@ private int nbparticipants;
 	    	 
 	             System.out.println("Au tour de " + joueurs[i].getNom());
 	    	     int a;
-	             a = Saisie.lireEntier("\n Voulez vous tirer une carte (rappel de votre main : " + joueurs[i].getMainStr() + " )");
+	             a = Saisie.lireEntier("\n Voulez vous tirer une carte (rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
 	    	     if (a == 1) {
 	    	    	 System.out.print("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 	    	    	

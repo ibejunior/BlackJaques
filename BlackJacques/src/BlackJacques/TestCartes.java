@@ -7,35 +7,25 @@ public class TestCartes {
     	
 		Deck paquet = new Deck();
 		//Deck paquetnom = new Deck();
-    	
 		//paquet.generateur();
 		
 		paquet.creationn();
 		paquet.shuffle();
-    	
     	paquet.conversion();
-    	
     	Cartes p1 = new Cartes(paquet);
     	p1.initialisation();
-    	
-    	
-    	
-    	
     	//Cartes croupier = new Cartes(paquet);
     	//Cartes croupiernom = new Cartes (paquet);
     	
-    	
+    	//Méthodes qui permettent de vérifier la bonne création du paquet 
     	paquet.afficher();
-    	paquet.affichernoms();
-    	
+    	//paquet.affichernoms();
     	
     	//ArrayList<String> b = croupier.croupierdep();
-    	
     	//croupiernom.croupierdepNom();
         //ArrayList<String> temp = p1.maindep(); // Peut �tre utile
     
     	//p1.maindepnom();
-    	
     	//p3.maindep();
     	//p4.maindep();
     	p1.croupierdep(); 

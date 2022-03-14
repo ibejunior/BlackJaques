@@ -14,6 +14,7 @@ public class Croupier {
     	
     	mains = new ArrayList<Integer>(15);
     	mainstr = new ArrayList<String>(15);
+    	
     }
     
     public int total() {
@@ -30,7 +31,7 @@ public class Croupier {
 			 somme += 10;
 		 }
 		return somme;
-   }
+    }
     public ArrayList<Integer> getMain() {
 		return mains;
 	}
