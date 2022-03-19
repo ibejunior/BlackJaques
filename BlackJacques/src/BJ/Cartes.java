@@ -10,10 +10,10 @@ private Scanner alpha = new Scanner(System.in);
 private ArrayList<Integer> mainCroupier;
 private ArrayList<String> mainNomCroupier;
 private Joueur[] joueurs;
-
 private Deck paquet;
 private boolean tirer;
 private int nbparticipants;
+private int modeDeJeu;
 	
 	public Cartes(Deck paquet) {
 		
@@ -25,24 +25,53 @@ private int nbparticipants;
 	}
 	
 	public void initialisation() {
-	    do {
-		System.out.println("Combien de joueurs ? (Min : 1, Max : 6)");
-		nbparticipants = alpha.nextInt();
+        System.out.println("===========================\n");
+        System.out.println("Choisissez un mode de jeu :\n");
+        System.out.println("-1) Mode de jeu classique.\n");
+        System.out.println("-2) Testez la différence entre les bots.\n");
+        modeDeJeu =  alpha.nextInt();
+        switch(modeDeJeu) {
+        case 1:
+            do {
+                System.out.println("Vous avez choisis le premier mode,\n");
+                System.out.println("Combien de joueurs ? (Min : 2, Max : 6)");
+                nbparticipants = alpha.nextInt();
+
+
+            } while (nbparticipants > 6 || nbparticipants < 0);
+            joueurs = new Joueur[nbparticipants];
+
+               for (int i =0; i<nbparticipants-1;i++) {
+                   String nom;
+                   int v = i+1;
+                   System.out.println("\nNom du joueur " + v);
+                nom = alpha.next();
+                joueurs[i] = new Joueur();
+                joueurs[i].nomJoueur(nom);
+            }
+               joueurs[nbparticipants-1] = new Joueur();
+            joueurs[nbparticipants-1].nomJoueur("Bot Pol");
+
+                break;
+            case 2:
+                System.out.println("Testons l'efficacité des différents bots sur un grand nombre de main !\n");
+                break;
+            default :
+                System.out.println("La valeur donnée n'est pas adéquate");
+                break;
+            }
+    }
 	
-	    } while (nbparticipants > 6 || nbparticipants < 0);
-	    joueurs = new Joueur[nbparticipants];
-	    
-	    for (int i =0; i<nbparticipants;i++) {
-	    	String nom;
-	    	int v = i+1;
-	    	System.out.println("\nNom du joueur " + v);
-	    	nom = alpha.next();
-	    	joueurs[i]  = new Joueur();
-	    	joueurs[i].nomJoueur(nom);
-	    }
 	
+	public void miser() {
+		System.out.println("Il faut désormais miser.");
+		for (int i = 0;i<nbparticipants;i++) {
+			System.out.println(joueurs[i].getNom() + " quelle somme voulez vous miser ? (rappel du montant de votre banque : " + joueurs[i].getBanque() + ")");
+			int mise = alpha.nextInt();
+			joueurs[i].miser(mise);
+			System.out.println("Votre mise est donc de " + joueurs[i].getMise());
+		}
 	}
-	
 	
 	public void generateur() {
 		for (int i = 1; i<14;i++) {
@@ -74,21 +103,22 @@ private int nbparticipants;
     	        
             }
            
-            System.out.println("Main de " + joueurs[j].getNom() + " " + joueurs[j].getMainStr() );
+            System.out.println("Main de " + joueurs[j].getNom() + " " + joueurs[j].getMainStr() + ", votre banque est d'une valeur de " + joueurs[j].getBanque() );
 	    }
        
  
 		for (int i=0;i<nbparticipants;i++) {
 			System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
 			tirer = true;
+			if (joueurs[i].total() == 21 ) {
+  	    		 joueurs[i].hasBj();
+  	    	 }
 			while (tirer && joueurs[i].total() < 21) {
-	   	    	 
 	             System.out.println("Au tour de " + joueurs[i].getNom());
 	    	     int a;
 	             a = Saisie.lireEntier("\n Voulez vous tirer une carte (rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
 	    	     if (a == 1) {
 	    	    	 System.out.print("\nVotre main : " + joueurs[i].getMainStr() + "\n");
-	    	    	
 	    	    	joueurs[i].addstr(paquet.getPaquetNom().get(0));
 	    	    	joueurs[i].addint(paquet.getPaquet().get(0));
 	    	        paquet.getPaquetNom().remove(0);
@@ -144,9 +174,13 @@ private int nbparticipants;
 	 public void gagnant() {
 		 
 		 for (int i=0;i<nbparticipants;i++) {
+			 if (joueurs[i].getHasBj() && total() != 21) {
+				 System.out.println(joueurs[i].getNom() + " a eu un blackjack, il remporte 1.5x sa mise ");
+				 joueurs[i].blackjack();
+			 }
 		    
-		     if (total() > 21 && joueurs[i].total() < 22 ) {
-			     System.out.println("\nLe croupier � un score de " + total() + " " +   joueurs[i].getNom() +" � un score de " + joueurs[i].total() + " donc " + joueurs[i].getNom() +" est vainqueur");
+			 else if (total() > 21 && joueurs[i].total() < 22 ) {
+		    	 System.out.println("\nLe croupier � un score de " + total() + " " +   joueurs[i].getNom() +" � un score de " + joueurs[i].total() + " donc " + joueurs[i].getNom() +" est vainqueur");
 		     }
 		     else if (total() < 22 && total() == joueurs[i].total()) {
 			     System.out.println( "\n" + joueurs[i].getNom() + "a le m�me score que le croupier "  + joueurs[i].getNom() + " r�cup�re sa mise");

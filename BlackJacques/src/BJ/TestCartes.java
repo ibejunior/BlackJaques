@@ -21,7 +21,7 @@ public class TestCartes {
     	Cartes p1 = new Cartes(paquet);
     	
     	p1.initialisation();
-    	
+    	p1.miser();
     	/* Méthodes pour vérifier la bonne distribution du paquet
     	paquetnom.affichernoms();
     	paquet.afficher();

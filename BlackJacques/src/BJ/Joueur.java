@@ -10,6 +10,7 @@ public class Joueur {
     private int banque;
     private ArrayList<String> mainstr;
     Deck paquet = new Deck();
+    private boolean HasBj = false;
     
     public Joueur() {
     	banque = 100;
@@ -53,6 +54,10 @@ public class Joueur {
 	}
 	public void miser(int bet) {
 		mise = bet;
+		banque -= mise;
+	}
+	public int getMise() {
+		return mise;
 	}
 	public void nomJoueur(String name) {
 		nom = name;
@@ -72,5 +77,11 @@ public class Joueur {
 	}
 	public void addstr(String card) {
 	    mainstr.add(card);
+	}
+	public void hasBj() {
+		HasBj = true;
+	}
+	public boolean getHasBj() {
+		return HasBj;
 	}
 }
