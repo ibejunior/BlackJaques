@@ -101,4 +101,5 @@ public class Deck {
 		public ArrayList<String> getPaquetNom(){
 			return jeunoms;
 		}
+		
 }	

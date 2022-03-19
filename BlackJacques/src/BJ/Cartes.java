@@ -71,6 +71,7 @@ private int modeDeJeu;
 			joueurs[i].miser(mise);
 			System.out.println("Votre mise est donc de " + joueurs[i].getMise());
 		}
+
 	}
 	
 	public void generateur() {
@@ -114,6 +115,7 @@ private int modeDeJeu;
   	    		 joueurs[i].hasBj();
   	    	 }
 			while (tirer && joueurs[i].total() < 21) {
+
 	             System.out.println("Au tour de " + joueurs[i].getNom());
 	    	     int a;
 	             a = Saisie.lireEntier("\n Voulez vous tirer une carte (rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
@@ -172,30 +174,41 @@ private int modeDeJeu;
 		 return mainNomCroupier.get(0);
 	 }
 	 public void gagnant() {
-		 
-		 for (int i=0;i<nbparticipants;i++) {
-			 if (joueurs[i].getHasBj() && total() != 21) {
-				 System.out.println(joueurs[i].getNom() + " a eu un blackjack, il remporte 1.5x sa mise ");
-				 joueurs[i].blackjack();
-			 }
-		    
-			 else if (total() > 21 && joueurs[i].total() < 22 ) {
-		    	 System.out.println("\nLe croupier � un score de " + total() + " " +   joueurs[i].getNom() +" � un score de " + joueurs[i].total() + " donc " + joueurs[i].getNom() +" est vainqueur");
-		     }
-		     else if (total() < 22 && total() == joueurs[i].total()) {
-			     System.out.println( "\n" + joueurs[i].getNom() + "a le m�me score que le croupier "  + joueurs[i].getNom() + " r�cup�re sa mise");
-		     }
-		     else if (joueurs[i].total() > 21 ) {
-			     System.out.println( "\n" + joueurs[i].getNom() + " a un score de " + joueurs[i].total() + " donc "  + joueurs[i].getNom() + " a perdu");
-		     }
-		     else if (total() < 22 && total() < joueurs[i].total() && joueurs[i].total() < 22  ) {
-			     System.out.println( "\n" + joueurs[i].getNom() + " a un score de "  + joueurs[i].total() + " et le croupier un score de " + total() + " donc "  + joueurs[i].getNom() + " est vainqueur");
-		     }
-		     else if (total() < 22 && total() > joueurs[i].total() && joueurs[i].total() < 22) {
-			     System.out.println( "\n" + joueurs[i].getNom() + " a un score de "  + joueurs[i].total() + " et le croupier un score de " + total() + " donc " +  joueurs[i].getNom() + " a perdu ");
-		     }
-	     }
-	 }
+
+         for (int i=0;i<nbparticipants;i++) {
+             if (joueurs[i].getHasBj() && total() != 21) {
+                 System.out.println(joueurs[i].getNom() + " a eu un blackjack, il remporte 1.5x sa mise ");
+                 joueurs[i].blackjack();
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+             }
+
+             else if (total() > 21 && joueurs[i].total() < 22 ) {
+                 System.out.println("\nLe croupier a un score de " + total() + " " +   joueurs[i].getNom() +" � un score de " + joueurs[i].total() + " donc " + joueurs[i].getNom() +" est vainqueur");
+                 joueurs[i].victoire();
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+
+             }
+             else if (total() < 22 && total() == joueurs[i].total()) {
+                 System.out.println( "\n" + joueurs[i].getNom() + "a le m�me score que le croupier "  + joueurs[i].getNom() + " r�cup�re sa mise");
+                 joueurs[i].egalite();
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+             }
+             else if (joueurs[i].total() > 21 ) {
+                 System.out.println( "\n" + joueurs[i].getNom() + " a un score de " + joueurs[i].total() + " donc "  + joueurs[i].getNom() + " a perdu");
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+             }
+             else if (total() < 22 && total() < joueurs[i].total() && joueurs[i].total() < 22  ) {
+                 System.out.println( "\n" + joueurs[i].getNom() + " a un score de "  + joueurs[i].total() + " et le croupier un score de " + total() + " donc "  + joueurs[i].getNom() + " est vainqueur");
+                 joueurs[i].victoire();
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+
+             }
+             else if (total() < 22 && total() > joueurs[i].total() && joueurs[i].total() < 22) {
+                 System.out.println( "\n" + joueurs[i].getNom() + " a un score de "  + joueurs[i].total() + " et le croupier un score de " + total() + " donc " +  joueurs[i].getNom() + " a perdu ");
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+             }
+         }
+     }
 	 public int total() {
 		 int somme = 0;
 		 boolean flag = false;
@@ -221,10 +234,22 @@ private int modeDeJeu;
 		}
 		
 	}
+	
+	
+	
 	public ArrayList<Integer> getMain(){
 		return mainCroupier;
 	}
 	public int getSize() {
 		return mainCroupier.size();
 	}
+
+	public void renitialisation() {
+		mainCroupier.clear();
+		mainNomCroupier.clear();
+		for(int i = 0;i < nbparticipants; i++) {
+			joueurs[i].reinitialisation();
+		}
 	}
+		
+}
