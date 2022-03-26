@@ -7,15 +7,22 @@ public class Joueur {
     private String nom;
     private ArrayList<Integer> mains;
     private int mise;
+    private int miseSplit;
     private int banque;
     private ArrayList<String> mainstr;
     Deck paquet = new Deck();
     private boolean HasBj = false;
+    private ArrayList<String> mainstrsplit;
+    private ArrayList<Integer> mainsintsplit;
+    private boolean hassplit = false;
+    private boolean hasDouble = false;
 
     public Joueur() {
         banque = 100;
         mains = new ArrayList<Integer>(15);
         mainstr = new ArrayList<String>(15);
+        mainsintsplit =  new ArrayList<Integer>(15);
+        mainstrsplit =  new ArrayList<String>(15);
     }
     public int total() {
          int somme = 0;
@@ -32,6 +39,22 @@ public class Joueur {
          }
         return somme;
     }
+    
+    public int totalMainSplit() {
+    	int somme = 0;
+        boolean flag = false;
+        for (int i = 0;i<mainsintsplit.size();i++) {
+
+            if (mainsintsplit.get(i) == 1) {
+                flag = true;
+            }
+            somme +=  mainsintsplit.get(i);
+        }
+        if (flag && 10+somme <= 21) {
+            somme += 10;
+        }
+       return somme;
+   }
 
     public int getBanque() {
         return banque;
@@ -58,6 +81,14 @@ public class Joueur {
     public void miser(int bet) {
         mise = bet;
         banque -= mise;
+    }
+    public void miserSplit(int bet) {
+    	miseSplit = bet;
+    	banque -= miseSplit;
+    }
+    public void miserDouble(int bet) {
+    	mise = bet;
+    	banque -= bet/2;
     }
     public int getMise() {
         return mise;
@@ -93,4 +124,32 @@ public class Joueur {
     public boolean getHasBj() {
         return HasBj;
     }
+    public ArrayList<Integer> getMainSplit() {
+		return mainsintsplit;
+	}
+    public ArrayList<String> getMainSplitstr() {
+		return mainstrsplit;
+	}
+    public void addintSplit(int card) {
+		mainsintsplit.add(card);
+	}
+    public void addstrSplit(String card) {
+		mainstrsplit.add(card);
+	}
+    public void hassplit() {
+		hassplit = true;
+	}
+    public boolean getHassplit() {
+		return hassplit;
+	}
+    public void hasDouble() {
+    	hasDouble = true;
+    }
+    public boolean getHasDouble() {
+    	return hasDouble;
+    }
+    public void removeMainInt(){
+    	mains.remove(1);
+    }
+
 }

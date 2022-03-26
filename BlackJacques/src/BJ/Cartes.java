@@ -113,23 +113,59 @@ private int modeDeJeu;
 			tirer = true;
 			if (joueurs[i].total() == 21 ) {
   	    		 joueurs[i].hasBj();
-  	    	 }
+  	    	}
 			while (tirer && joueurs[i].total() < 21) {
 
 	             System.out.println("Au tour de " + joueurs[i].getNom());
 	    	     int a;
-	             a = Saisie.lireEntier("\n Voulez vous tirer une carte (rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
+	             a = Saisie.lireEntier("\n Voulez vous : \n 1-tirer une carte \n 2-Doubler \n 3-Split \n 4-Arrêter de tirer"
+	             		+ "\n rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
 	    	     if (a == 1) {
-	    	    	 System.out.print("\nVotre main : " + joueurs[i].getMainStr() + "\n");
+	    	    	System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 	    	    	joueurs[i].addstr(paquet.getPaquetNom().get(0));
 	    	    	joueurs[i].addint(paquet.getPaquet().get(0));
 	    	        paquet.getPaquetNom().remove(0);
 	    	        paquet.getPaquet().remove(0);
-	    	    	
-	    	        
-	    	        System.out.print("\nVotre main : " + joueurs[i].getMainStr() + "\n");
+	    	    	System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 	    	        }
-	    	    if (a != 1) {
+	    	     else if (a==2) {
+	    	    	System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
+	    	    	doubler(i);
+	    	    	joueurs[i].hasDouble();
+	    	    	System.out.println("\nVous avez bien doublé ! Votre mise est desormais de " + joueurs[i].getMise() + " et votre main final est " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")");
+	    	    	tirer = false;
+	    	     }
+	    	     else if (a==3) {
+	    	    	System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
+	    	    	joueurs[i].addintSplit(joueurs[i].getMain().get(1));
+	    			joueurs[i].addstrSplit(joueurs[i].getMainStr().get(1));
+	    			joueurs[i].getMain().remove(1);
+	    			joueurs[i].getMainStr().remove(1);
+	    			joueurs[i].hassplit();
+	    	    	System.out.println("\nVous avez décidé de split votre main ! Vous devez maintenant jouer deux mains, qui sont : " + joueurs[i].getMainStr() + " et " + joueurs[i].getMainSplitstr());
+	    	    	System.out.println("Commencez à tirer pour votre première main qui est " + joueurs[i].getMainStr());
+	    	    	int b = Saisie.lireEntier("\n Faites 1 pour tirer et autre chose pour arrêter de tirer cette main ");
+	    	    	while (b == 1) {
+	    	    		joueurs[i].addstr(paquet.getPaquetNom().get(0));
+		    	    	joueurs[i].addint(paquet.getPaquet().get(0));
+		    	        paquet.getPaquetNom().remove(0);
+		    	        paquet.getPaquet().remove(0);
+		    	        System.out.println("\nVotre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")");
+		    	        b = Saisie.lireEntier("\n Souhaitez vous retirer une nouvelle carte ? (1 si oui, autre si non)");
+	    	    	}
+	    	    	System.out.println("Tirez maintenant pour votre seconde main qui est " + joueurs[i].getMainSplitstr());
+	    	    	b = Saisie.lireEntier("\n Faites 1 pour tirer et autre chose pour arrêter de tirer cette main ");
+	    	    	while (b == 1) {
+	    	    		joueurs[i].addstrSplit(paquet.getPaquetNom().get(0));
+		    	    	joueurs[i].addintSplit(paquet.getPaquet().get(0));
+		    	        paquet.getPaquetNom().remove(0);
+		    	        paquet.getPaquet().remove(0);
+		    	        System.out.println("\nVotre main : " + joueurs[i].getMainSplitstr()  + " (" + joueurs[i].totalMainSplit() + ")");
+		    	        b = Saisie.lireEntier("\n Souhaitez vous retirer une nouvelle carte ? (1 si oui, autre si non)");
+	    	    	}
+	    	    	tirer = false;
+	    	     }
+	    	     else {
 	    	    	tirer = false;
 	    	    }   
 	        
@@ -146,9 +182,7 @@ private int modeDeJeu;
 		 for (int i =0;i<2;i++) {
 		        mainCroupier.add((paquet.getPaquet().get(0)));
 		        mainNomCroupier.add(paquet.getPaquetNom().get(0));
-		        
-	    	    
-	    	    paquet.getPaquet().remove(0);
+		        paquet.getPaquet().remove(0);
 	    	    paquet.getPaquetNom().remove(0);
 		 }
 	 }
@@ -179,7 +213,7 @@ private int modeDeJeu;
              if (joueurs[i].getHasBj() && total() != 21) {
                  System.out.println(joueurs[i].getNom() + " a eu un blackjack, il remporte 1.5x sa mise ");
                  joueurs[i].blackjack();
-                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs [i].getBanque());
+                 System.out.println("La banque du joueur " + joueurs[i].getNom() + " est donc désormais de " + joueurs[i].getBanque());
              }
 
              else if (total() > 21 && joueurs[i].total() < 22 ) {
@@ -251,5 +285,23 @@ private int modeDeJeu;
 			joueurs[i].reinitialisation();
 		}
 	}
+	
+	public void doubler(int i) {
+		joueurs[i].addint(paquet.getPaquet().get(0));
+		joueurs[i].addstr(paquet.getPaquetNom().get(0));
+		paquet.getPaquet().remove(0);
+	    paquet.getPaquetNom().remove(0);
+	    joueurs[i].miserDouble(joueurs[i].getMise()*2);
+	}
+
+	public void split(int i) {
+		joueurs[i].addintSplit(joueurs[i].getMain().get(1));
+		joueurs[i].addstrSplit(joueurs[i].getMainStr().get(1));
+		joueurs[i].getMain().remove(1);
+		joueurs[i].getMainStr().remove(1);
+		joueurs[i].hassplit();
+
+	}
+
 		
 }
