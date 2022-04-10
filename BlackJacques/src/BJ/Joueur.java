@@ -17,6 +17,8 @@ public class Joueur {
     private ArrayList<Integer> mainsintsplit;
     private boolean hassplit = false;
     private boolean hasDouble = false;
+    private boolean isABot = false;
+
 
     public Joueur() {
         banque = 100;
@@ -180,6 +182,14 @@ public class Joueur {
     }
     public void removeMainInt(){
     	mains.remove(1);
+    }
+
+    public void isABot(){
+        isABot = true;
+    }
+    
+    public boolean getIsABot(){
+        return isABot;
     }
 
 }

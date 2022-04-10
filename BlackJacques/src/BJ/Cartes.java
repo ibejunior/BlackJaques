@@ -41,20 +41,30 @@ private int modeDeJeu;
             } while (nbparticipants > 6 || nbparticipants < 0);
             joueurs = new Joueur[nbparticipants];
 
-               for (int i =0; i<nbparticipants-1;i++) {
-                   String nom;
-                   int v = i+1;
-                   System.out.println("\nNom du joueur " + v);
-                nom = alpha.next();
-                joueurs[i] = new Joueur();
-                joueurs[i].nomJoueur(nom);
-            }
-               joueurs[nbparticipants-1] = new Joueur();
+            for (int i =0; i<nbparticipants-1;i++) {
+               String nom;
+               int v = i+1;
+               System.out.println("\nNom du joueur " + v);
+            	nom = alpha.next();
+            	joueurs[i] = new Joueur();
+            	joueurs[i].nomJoueur(nom);
+        	}
+            joueurs[nbparticipants-1] = new Joueur();
             joueurs[nbparticipants-1].nomJoueur("Bot Pol");
 
                 break;
             case 2:
                 System.out.println("Testons l'efficacité des différents bots sur un grand nombre de main !\n");
+				nbparticipants = 3;
+				for( int i = 0; i<3; i++){
+					String nom;
+					int v = i+1;
+					nom = "Bot" + v;
+					joueurs[i] = new Joueur();
+					joueurs[i].nomJoueur(nom);
+					System.out.println(joueurs[i].getNom());
+					joueurs[i].isABot();
+				}
                 break;
             default :
                 System.out.println("La valeur donnée n'est pas adéquate");
@@ -105,9 +115,12 @@ private int modeDeJeu;
             System.out.println("Main de " + joueurs[j].getNom() + " " + joueurs[j].getMainStr() + ", votre banque est d'une valeur de " + joueurs[j].getBanque() );
 	    }
        
- 
 		for (int i=0;i<nbparticipants;i++) {
-			System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
+			if(joueurs[i].getIsABot()){
+
+			}
+			else{
+				System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
 			tirer = true;
 			if (joueurs[i].total() == 21 ) {
   	    		 joueurs[i].hasBj();
@@ -133,7 +146,7 @@ private int modeDeJeu;
 	    	    	System.out.println("\nVous avez bien doublé ! Votre mise est desormais de " + joueurs[i].getMise() + " et votre main final est " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")");
 	    	    	tirer = false;
 	    	     }
-	    	     else if (a == 3 && joueurs[i].getMainStr().get(0) != joueurs[i].getMainStr().get(1)) {
+	    	     else if (a == 3 && joueurs[i].getMain().get(0) != joueurs[i].getMain().get(1)) {
 	    	    	 System.out.println("Impossible de Split, vous n'avez pas deux cartes identiques, veuillez réessayer");
 	    	    	 
 	    	     }
@@ -179,6 +192,8 @@ private int modeDeJeu;
 	    	    }   
 	        
 	     }
+			}
+			
 	    }
 	       
 	 }
@@ -216,6 +231,19 @@ private int modeDeJeu;
 		 }
 		 return mainNomCroupier.get(0);
 	 }
+
+	 public String algoLevel1(){
+		while(total() < 17){
+			joueurs[0].getMain().add(paquet.getPaquet().get(0));
+			joueurs[0].getMainStr().add(paquet.getPaquetNom().get(0));
+			paquet.getPaquet().remove(0);
+			paquet.getPaquetNom().remove(0);
+			
+		}
+		return "none";
+	}
+
+
 	 public void gagnant() {
 
          for (int i=0;i<nbparticipants;i++) {
@@ -386,6 +414,11 @@ private int modeDeJeu;
 		joueurs[i].getMainStr().remove(1);
 		joueurs[i].hassplit();
 
+	}
+
+
+	public int getModeDeJeu(){
+    	return modeDeJeu;
 	}
 
 		

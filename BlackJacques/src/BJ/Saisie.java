@@ -2,7 +2,7 @@ package BJ;
 
 import java.io.*;
 public class Saisie {
-	//M�thodes
+	//Methodes
 	public static String lireChaine(String message){
 	 	String ligne = null;
 	 	try{
