@@ -12,6 +12,7 @@ public class Joueur {
     private ArrayList<String> mainstr;
     Deck paquet = new Deck();
     private boolean HasBj = false;
+    private boolean HasBjSplit = false;
     private ArrayList<String> mainstrsplit;
     private ArrayList<Integer> mainsintsplit;
     private boolean hassplit = false;
@@ -39,6 +40,7 @@ public class Joueur {
          }
         return somme;
     }
+   
     
     public int totalMainSplit() {
     	int somme = 0;
@@ -66,6 +68,19 @@ public class Joueur {
     public void victoire() {
         banque += 2*mise;
         mise = 0;
+       
+    }
+    public void victoireSplit() {
+    	 banque += 2*miseSplit;
+    	 miseSplit = 0;
+    }
+    public void defaiteSplit() {
+    	 banque -= 2*miseSplit;
+    	 miseSplit = 0;
+    }
+    public void egaliteSplit() {
+    	banque += miseSplit;
+    	miseSplit = 0;
     }
     public void defaite() {
         banque -= mise;
@@ -77,6 +92,7 @@ public class Joueur {
     }
     public void egalite() {
         banque += mise;
+        mise = 0;
     }
     public void miser(int bet) {
         mise = bet;
@@ -86,6 +102,7 @@ public class Joueur {
     	miseSplit = bet;
     	banque -= miseSplit;
     }
+    
     public void miserDouble(int bet) {
     	mise = bet;
     	banque -= bet/2;
@@ -116,6 +133,13 @@ public class Joueur {
     public void reinitialisation() {
         mains.clear();
         mainstr.clear();
+        mainstrsplit.clear();
+        mainsintsplit.clear();
+        HasBj = false;
+        HasBjSplit = false;
+        hassplit = false;
+        hasDouble = false;
+        
     }
     
     public void hasBj() {
@@ -123,6 +147,12 @@ public class Joueur {
     }
     public boolean getHasBj() {
         return HasBj;
+    }
+    public void hasBjSplit() {
+    	HasBjSplit = true;
+    }
+    public boolean getHasBjSplit() {
+    	return HasBjSplit;
     }
     public ArrayList<Integer> getMainSplit() {
 		return mainsintsplit;
