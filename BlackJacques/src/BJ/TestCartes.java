@@ -34,9 +34,10 @@ public class TestCartes {
 			}
 		}
 		else if(p1.getModeDeJeu() == 2){
-			System.out.println("100 parties vont être joué pour tester les bots ! ");
+			System.out.println("1000 parties vont être joué pour tester les bots ! ");
 			for(int i = 0; i<1000; i++){
 				if(i%20 == 0){
+					paquet.reinitialisation();
 					paquet.generateur();
 					paquet.shuffle();
 					paquetnom = paquet;

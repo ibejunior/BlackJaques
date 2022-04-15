@@ -20,6 +20,11 @@ public class Deck {
 				
 			}
 		}
+		
+		public void reinitialisation() {
+			jeu.clear();
+			jeunoms.clear();
+		}
 		public void afficher() {
 			for (int i = 0;i<312;i++) {
 		    System.out.println(jeu.get(i)+ " ");

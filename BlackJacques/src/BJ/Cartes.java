@@ -41,13 +41,13 @@ private int modeDeJeu;
             } while (nbparticipants > 6 || nbparticipants < 0);
             joueurs = new Joueur[nbparticipants];
 
-            for (int i =0; i<nbparticipants-1;i++) {
+            for (int i =0; i<nbparticipants;i++) {
                String nom;
                int v = i+1;
                System.out.println("\nNom du joueur " + v);
-            	nom = alpha.next();
-            	joueurs[i] = new Joueur();
-            	joueurs[i].nomJoueur(nom);
+               nom = alpha.next();
+               joueurs[i] = new Joueur();
+               joueurs[i].nomJoueur(nom);
         	}
 
             //joueurs[nbparticipants-1] = new Joueur();
@@ -122,10 +122,18 @@ private int modeDeJeu;
 	    }
        
 		for (int i=0;i<nbparticipants;i++) {
+			
 			if(joueurs[i].getIsABot()){
-				algoLevel1(0);
-				algoLevel1(1);
-				algoLevel1(2);
+				if (i == 0) {
+					algoLevel1(0);
+					
+				}
+				else if (i == 1) {
+					algoLevel1(1);
+				}
+				else {
+					algoLevel2(2);
+				}
 			}
 			else{
 				System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
@@ -232,6 +240,7 @@ private int modeDeJeu;
 		     paquet.getPaquet().remove(0);
 		     paquet.getPaquetNom().remove(0);
 		     System.out.println("\nMain du croupier apr�s tirage : " + mainNomCroupier);
+		     System.out.println("\nMain du croupier apr�s tirage : " + mainCroupier);
 	     }
 		 if (total() > 17) {
 			 System.out.println("\nMain du croupier final : " + mainNomCroupier);
@@ -247,10 +256,123 @@ private int modeDeJeu;
 			paquet.getPaquetNom().remove(0);
 		}
 	}
+	 
+	 public void algoLevel2(int index) {
+		 boolean Draw = true;
+		 while(Draw) {
+			 // Cas où le croupier à un deux comme main de départ
+			 if (mainCroupier.get(0) == 2) {
+				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					 if(joueurs[index].total() < 18) {
+						 tirerBot(index);
+					 }
+					 else {
+						 Draw = false;
+					 }
+						 
+				 }
+				 else if (joueurs[index].total() < 13) {
+					 tirerBot(index);
+				 }
+				 
+				 else {
+					 Draw = false;
+				 }
+			 }// Endif 2 main de départ
+			// Cas où le croupier à un trois comme main de départ
+			 else if (mainCroupier.get(0) == 3) {
+				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					 if(joueurs[index].total() < 19) {
+						 tirerBot(index);
+					 }
+					 else {
+						 Draw = false;
+					 }
+						 
+				 }
+				 else if (joueurs[index].total() < 13) {
+					 tirerBot(index);
+				 }
+				 
+				 else {
+					 Draw = false;
+				 }
+			 }// Endif 3 main de départ
+			 // Cas où le croupier à un quatre,cinq ou six comme main de départ
+			 else if (mainCroupier.get(0) == 4 || mainCroupier.get(0) == 5 || mainCroupier.get(0) == 6) {
+				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					 if(joueurs[index].total() < 19) {
+						 tirerBot(index);
+					 }
+					 else {
+						 Draw = false;
+					 }
+						 
+				 }
+				 else if (joueurs[index].total() < 12) {
+					 tirerBot(index);
+				 }
+				 
+				 else {
+					 Draw = false;
+				 }
+			 }// Endif 4, 5 ou 6 main de départ
+			// Cas où le croupier à un sept ou un huit comme main de départ
+			 else if (mainCroupier.get(0) == 7 || mainCroupier.get(0) == 8) {
+				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					 if(joueurs[index].total() < 18) {
+						 tirerBot(index);
+					 }
+					 else {
+						 Draw = false;
+					 }
+						 
+				 }
+				 else if (joueurs[index].total() < 17) {
+					 tirerBot(index);
+				 }
+				 
+				 else {
+					 Draw = false;
+				 }
+			 }// Endif 7 ou 8 main de départ
+			// Cas où le croupier à un neuf,dix, ou As comme main de départ
+			 else if (mainCroupier.get(0) == 9 || mainCroupier.get(0) == 10 || mainCroupier.get(0) == 11 || mainCroupier.get(0) == 1) {
+				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					 if(joueurs[index].total() < 19) {
+						 tirerBot(index);
+					 }
+					 else {
+						 Draw = false;
+					 }
+						 
+				 }
+				 else if (joueurs[index].total() < 17) {
+					 tirerBot(index);
+				 }
+				 
+				 else {
+					 Draw = false;
+				 }
+			 }// Endif  main de départ
+		 }
+	 }
+	 
+	 public void tirerBot(int index) {
+		joueurs[index].addint(paquet.getPaquet().get(0));
+		joueurs[index].addstr(paquet.getPaquetNom().get(0));
+		paquet.getPaquet().remove(0);
+		paquet.getPaquetNom().remove(0);
+	 }
 
 
 	 public void gagnant() {
-
+		 
          for (int i=0;i<nbparticipants;i++) {
              if (joueurs[i].getHassplit()) {
             	// Cas du if pour la première main
