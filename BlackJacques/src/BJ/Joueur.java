@@ -21,7 +21,7 @@ public class Joueur {
 
 
     public Joueur() {
-        banque = 100;
+        banque = 100000;
         mains = new ArrayList<Integer>(15);
         mainstr = new ArrayList<String>(15);
         mainsintsplit =  new ArrayList<Integer>(15);

@@ -60,7 +60,7 @@ private int modeDeJeu;
 				for( int i = 0; i<3; i++){
 					String nom;
 					int v = i+1;
-					nom = "Bot" + v;
+					nom = "Bot " + v;
 					joueurs[i] = new Joueur();
 					joueurs[i].nomJoueur(nom);
 					System.out.println(joueurs[i].getNom());
@@ -129,10 +129,10 @@ private int modeDeJeu;
 					
 				}
 				else if (i == 1) {
-					algoLevel1(1);
+					algoLevel2(1);
 				}
 				else {
-					algoLevel2(2);
+					algoLevel3(2);
 				}
 			}
 			else{
@@ -248,7 +248,7 @@ private int modeDeJeu;
 		 return mainNomCroupier.get(0);
 	 }
 
-	 public void algoLevel1(int index){
+	public void algoLevel1(int index){
 		while(joueurs[index].total() < 17){
 			joueurs[index].addint(paquet.getPaquet().get(0));
 			joueurs[index].addstr(paquet.getPaquetNom().get(0));
@@ -257,119 +257,281 @@ private int modeDeJeu;
 		}
 	}
 	 
-	 public void algoLevel2(int index) {
-		 boolean Draw = true;
-		 while(Draw) {
-			 // Cas où le croupier à un deux comme main de départ
-			 if (mainCroupier.get(0) == 2) {
-				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
-				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
-					 if(joueurs[index].total() < 18) {
-						 tirerBot(index);
-					 }
-					 else {
-						 Draw = false;
-					 }
+	public void algoLevel2(int index) {
+		boolean Draw = true;
+		while(Draw) {
+			// Cas où le croupier à un deux comme main de départ
+			if (mainCroupier.get(0) == 2) {
+				// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					if(joueurs[index].total() < 18) {
+						tirerBot(index);
+					}
+					else {
+						Draw = false;
+					}
 						 
-				 }
-				 else if (joueurs[index].total() < 13) {
-					 tirerBot(index);
-				 }
+				}
+				else if (joueurs[index].total() < 13) {
+					tirerBot(index);
+				}
 				 
-				 else {
-					 Draw = false;
-				 }
-			 }// Endif 2 main de départ
+				else {
+					Draw = false;
+				}
+			}// Endif 2 main de départ
 			// Cas où le croupier à un trois comme main de départ
-			 else if (mainCroupier.get(0) == 3) {
-				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
-				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
-					 if(joueurs[index].total() < 19) {
-						 tirerBot(index);
-					 }
-					 else {
-						 Draw = false;
-					 }
+			else if (mainCroupier.get(0) == 3) {
+				// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					if(joueurs[index].total() < 19) {
+						tirerBot(index);
+					}
+					else {
+						Draw = false;
+					}
 						 
-				 }
-				 else if (joueurs[index].total() < 13) {
-					 tirerBot(index);
-				 }
+				}
+				else if (joueurs[index].total() < 13) {
+					tirerBot(index);
+				}
 				 
-				 else {
-					 Draw = false;
-				 }
-			 }// Endif 3 main de départ
-			 // Cas où le croupier à un quatre,cinq ou six comme main de départ
-			 else if (mainCroupier.get(0) == 4 || mainCroupier.get(0) == 5 || mainCroupier.get(0) == 6) {
-				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
-				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
-					 if(joueurs[index].total() < 19) {
-						 tirerBot(index);
-					 }
-					 else {
-						 Draw = false;
-					 }
+				else {
+					Draw = false;
+				}
+			}// Endif 3 main de départ
+			// Cas où le croupier à un quatre,cinq ou six comme main de départ
+			else if (mainCroupier.get(0) == 4 || mainCroupier.get(0) == 5 || mainCroupier.get(0) == 6) {
+				// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					if(joueurs[index].total() < 19) {
+						tirerBot(index);
+					}
+					else {
+						Draw = false;
+					}
 						 
-				 }
-				 else if (joueurs[index].total() < 12) {
-					 tirerBot(index);
-				 }
+				}
+				else if (joueurs[index].total() < 12) {
+					tirerBot(index);
+				}
 				 
-				 else {
-					 Draw = false;
-				 }
-			 }// Endif 4, 5 ou 6 main de départ
+				else {
+					Draw = false;
+				}
+			}// Endif 4, 5 ou 6 main de départ
 			// Cas où le croupier à un sept ou un huit comme main de départ
-			 else if (mainCroupier.get(0) == 7 || mainCroupier.get(0) == 8) {
-				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
-				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
-					 if(joueurs[index].total() < 18) {
-						 tirerBot(index);
-					 }
-					 else {
-						 Draw = false;
-					 }
+			else if (mainCroupier.get(0) == 7 || mainCroupier.get(0) == 8) {
+				// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					if(joueurs[index].total() < 18) {
+						tirerBot(index);
+					}
+					else {
+						Draw = false;
+					}
 						 
-				 }
-				 else if (joueurs[index].total() < 17) {
-					 tirerBot(index);
-				 }
+				}
+				else if (joueurs[index].total() < 17) {
+					tirerBot(index);
+				}
 				 
-				 else {
-					 Draw = false;
-				 }
-			 }// Endif 7 ou 8 main de départ
+				else {
+					Draw = false;
+				}
+			}// Endif 7 ou 8 main de départ
 			// Cas où le croupier à un neuf,dix, ou As comme main de départ
-			 else if (mainCroupier.get(0) == 9 || mainCroupier.get(0) == 10 || mainCroupier.get(0) == 11 || mainCroupier.get(0) == 1) {
-				 // Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
-				 if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
-					 if(joueurs[index].total() < 19) {
-						 tirerBot(index);
-					 }
-					 else {
-						 Draw = false;
-					 }
+			else if (mainCroupier.get(0) == 9 || mainCroupier.get(0) == 10 || mainCroupier.get(0) == 11 || mainCroupier.get(0) == 1) {
+				// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+				if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+					if(joueurs[index].total() < 19) {
+						tirerBot(index);
+					}
+					else {
+						Draw = false;
+					}
 						 
-				 }
-				 else if (joueurs[index].total() < 17) {
-					 tirerBot(index);
-				 }
+				}
+				else if (joueurs[index].total() < 17) {
+					tirerBot(index);
+				}
 				 
-				 else {
-					 Draw = false;
-				 }
-			 }// Endif  main de départ
-		 }
-	 }
+				else {
+					Draw = false;
+				}
+			}// Endif  main de départ
+		}
+	}
+
+	public void algoLevel3(int index){
+		//Quand le Croupier a l'as, on tire si < 17, Si on a AS / 6 ou AS / 7
+		if(mainCroupier.get(0) == 1 || mainCroupier.get(0) == 11){
+			if(((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept")) || ((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six"))){
+				tirerBot(index);
+				boucleTirer(index,17);
+			}
+			else {
+				boucleTirer(index,17);
+			}
+		}//Fin croupier As
+		//Quand le croupier a 10 on tire si <17 ou si A 6 ou si A 7 et on split si As As puis tirer si < 17
+		else if(mainCroupier.get(0) == 10){
+			if(getValCartes(index, 0) == "As" && getValCartes(index, 0) == "As"){
+				split(index);
+				boucleTirer(index,17);
+				while(joueurs[index].totalMainSplit() < 17){
+					tirerBotSplit(index);
+				}
+			}
+			else if(((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept")) || ((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six"))){
+				tirerBot(index);
+				boucleTirer(index,17);
+			}
+			else{
+				boucleTirer(index,17);
+			}
+		}//Fin Croupier 10
+		// Croupier a 9 
+		else if(mainCroupier.get(0) == 9){
+			if(joueurs[index].total() == 10 || joueurs[index].total() == 11){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			//Avec Deux As quand on split, on ne tire qu'une carte ! 
+			else if(getValCartes(index, 0) == "As" && getValCartes(index, 1) == "As"){
+				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+			}
+			//Avec 8 8 ou 9 9 on tire quand total < 17
+			else if((getValCartes(index, 0) == "Neuf" && getValCartes(index, 1) == "Neuf") || (getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit")){
+				split(index);
+				boucleTirer(index,17);
+				while(joueurs[index].totalMainSplit() < 17){
+					tirerBotSplit(index);
+				}
+			}
+			// Avec As 7 ou As 6 on tire quand meme
+			else if(((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept")) || ((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six"))){
+				tirerBot(index);
+				boucleTirer(index,17);
+			}
+			else{
+				boucleTirer(index,17);
+			}
+		}//Fin croupier 9
+		//Croupier a 8
+		else if(mainCroupier.get(0) == 8){
+			if(joueurs[index].total() == 10 || joueurs[index].total() == 11){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			//Avec Deux As quand on split, on ne tire qu'une carte ! 
+			else if(getValCartes(index, 0) == "As" && getValCartes(index, 1) == "As"){
+				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+			}
+			//Avec 8 8 ou 9 9 split puis on tire quand total < 17
+			else if((getValCartes(index, 0) == "Neuf" && getValCartes(index, 1) == "Neuf") || (getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit")){
+				split(index);
+				boucleTirer(index,17);
+				while(joueurs[index].totalMainSplit() < 17){
+					tirerBotSplit(index);
+				}
+			}
+			// Avec As 6 on tire quand meme
+			else if((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six")){
+				tirerBot(index);
+				boucleTirer(index,17);
+			}
+			else{
+				boucleTirer(index,17);
+			}
+		}//Fin croupier 8
+		//Le croupier a 7
+		else if(mainCroupier.get(0) == 7){
+			// Si on a 10 ou 11 on double
+			if(joueurs[index].total() == 10 || joueurs[index].total() == 11){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			//As As on split et on tire 1 carte
+			else if(getValCartes(index, 0) == "As" && getValCartes(index, 1) == "As"){
+				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+			}
+			//8 8 / 7 7 / 3 3 / 2 2 , on split puis tire quand total < 17
+			else if((getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit") || (getValCartes(index, 0) == "Sept" && getValCartes(index, 1) == "Sept") ||  (getValCartes(index, 0) == "Trois" && getValCartes(index, 1) == "Trois") || (getValCartes(index, 0) == "Deux" && getValCartes(index, 1) == "Deux")){
+				split(index);
+				boucleTirer(index,17);
+				while(joueurs[index].totalMainSplit() < 17){
+					tirerBotSplit(index);
+				}
+			}
+			// As 6 on tire 1 fois puis on tire si total < 17
+			else if((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six")){
+				tirerBot(index);
+				boucleTirer(index,17);
+			}
+			// On tira si total < 17
+			else{
+				boucleTirer(index,17);
+			}
+		}// Fin croupier 7
+
+		/* ===================(Partie extraite de l'algo Niveau 2)==================== */
+		//Le croupier a 2 
+		else if (mainCroupier.get(0) == 2) {
+			// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+			if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+				boucleTirer(index, 18);
+			}
+			boucleTirer(index, 13);
+		}// Endif 2 main de départ
+		// Cas où le croupier à un trois comme main de départ
+		else if (mainCroupier.get(0) == 3) {
+			// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+			if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+				boucleTirer(index, 19);
+			}
+			boucleTirer(index, 13);
+		}// Endif 3 main de départ
+		// Cas où le croupier à un quatre,cinq ou six comme main de départ
+		else if (mainCroupier.get(0) == 4 || mainCroupier.get(0) == 5 || mainCroupier.get(0) == 6) {
+			// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
+			if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
+				boucleTirer(index, 19);
+			}
+			boucleTirer(index, 12);
+		}// Endif 4, 5 ou 6 main de départ
+	}//Fin de l'algo de niveau 3
+
+	//Méthodes pour avoir la valeur de la carte
+	public String getValCartes (int indexJ, int indexCartes){
+		return joueurs[indexJ].getMainStr().get(indexCartes);
+	}
 	 
-	 public void tirerBot(int index) {
+	public void tirerBot(int index) {
 		joueurs[index].addint(paquet.getPaquet().get(0));
 		joueurs[index].addstr(paquet.getPaquetNom().get(0));
 		paquet.getPaquet().remove(0);
 		paquet.getPaquetNom().remove(0);
-	 }
+	}
 
+	public void tirerBotSplit(int index){
+		joueurs[index].addstrSplit(paquet.getPaquetNom().get(0));
+		joueurs[index].addintSplit(paquet.getPaquet().get(0));
+		paquet.getPaquetNom().remove(0);
+		paquet.getPaquet().remove(0);
+	}
+
+	public void boucleTirer(int index, int valMax){
+		while(joueurs[index].total() < valMax){
+			tirerBot(index);
+		}
+	}
 
 	 public void gagnant() {
 		 
