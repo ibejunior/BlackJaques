@@ -78,8 +78,8 @@ private int modeDeJeu;
 		System.out.println("Il faut désormais miser.");
 		for (int i = 0;i<nbparticipants;i++) {
 			if(joueurs[i].getIsABot()){
-				joueurs[i].miser(1);
-				System.out.println("Le bot"+i+" a miser 1 !");
+				joueurs[i].miser(2);
+				System.out.println("Le bot"+i+" a misé 2 !");
 			}
 			else{
 				System.out.println(joueurs[i].getNom() + " quelle somme voulez vous miser ? (rappel du montant de votre banque : " + joueurs[i].getBanque() + ")");
@@ -249,6 +249,9 @@ private int modeDeJeu;
 	 }
 
 	public void algoLevel1(int index){
+		if (joueurs[index].total() == 21) {
+			joueurs[index].hasBj();
+		}
 		while(joueurs[index].total() < 17){
 			joueurs[index].addint(paquet.getPaquet().get(0));
 			joueurs[index].addstr(paquet.getPaquetNom().get(0));
@@ -259,6 +262,9 @@ private int modeDeJeu;
 	 
 	public void algoLevel2(int index) {
 		boolean Draw = true;
+		if (joueurs[index].total() == 21) {
+			joueurs[index].hasBj();
+		}
 		while(Draw) {
 			// Cas où le croupier à un deux comme main de départ
 			if (mainCroupier.get(0) == 2) {
@@ -365,6 +371,9 @@ private int modeDeJeu;
 
 	public void algoLevel3(int index){
 		//Quand le Croupier a l'as, on tire si < 17, Si on a AS / 6 ou AS / 7
+		if (joueurs[index].total() == 21) {
+			joueurs[index].hasBj();
+		}
 		if(mainCroupier.get(0) == 1 || mainCroupier.get(0) == 11){
 			if(((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept")) || ((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six"))){
 				tirerBot(index);
@@ -376,12 +385,18 @@ private int modeDeJeu;
 		}//Fin croupier As
 		//Quand le croupier a 10 on tire si <17 ou si A 6 ou si A 7 et on split si As As puis tirer si < 17
 		else if(mainCroupier.get(0) == 10){
-			if(getValCartes(index, 0) == "As" && getValCartes(index, 0) == "As"){
+			if(getValCartes(index, 0) == "As" && getValCartes(index, 1) == "As"){
 				split(index);
-				boucleTirer(index,17);
-				while(joueurs[index].totalMainSplit() < 17){
-					tirerBotSplit(index);
+				
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
 				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
+					
 			}
 			else if(((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept")) || ((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six"))){
 				tirerBot(index);
@@ -402,10 +417,24 @@ private int modeDeJeu;
 				split(index);
 				tirerBot(index);
 				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 			}
 			//Avec 8 8 ou 9 9 on tire quand total < 17
 			else if((getValCartes(index, 0) == "Neuf" && getValCartes(index, 1) == "Neuf") || (getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit")){
 				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 				boucleTirer(index,17);
 				while(joueurs[index].totalMainSplit() < 17){
 					tirerBotSplit(index);
@@ -431,10 +460,24 @@ private int modeDeJeu;
 				split(index);
 				tirerBot(index);
 				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 			}
 			//Avec 8 8 ou 9 9 split puis on tire quand total < 17
 			else if((getValCartes(index, 0) == "Neuf" && getValCartes(index, 1) == "Neuf") || (getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit")){
 				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 				boucleTirer(index,17);
 				while(joueurs[index].totalMainSplit() < 17){
 					tirerBotSplit(index);
@@ -461,10 +504,24 @@ private int modeDeJeu;
 				split(index);
 				tirerBot(index);
 				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 			}
 			//8 8 / 7 7 / 3 3 / 2 2 , on split puis tire quand total < 17
 			else if((getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit") || (getValCartes(index, 0) == "Sept" && getValCartes(index, 1) == "Sept") ||  (getValCartes(index, 0) == "Trois" && getValCartes(index, 1) == "Trois") || (getValCartes(index, 0) == "Deux" && getValCartes(index, 1) == "Deux")){
 				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
 				boucleTirer(index,17);
 				while(joueurs[index].totalMainSplit() < 17){
 					tirerBotSplit(index);
@@ -702,6 +759,7 @@ private int modeDeJeu;
 		joueurs[i].getMain().remove(1);
 		joueurs[i].getMainStr().remove(1);
 		joueurs[i].hassplit();
+		joueurs[i].miserSplit(joueurs[i].getMise());
 
 	}
 
