@@ -537,6 +537,56 @@ private int modeDeJeu;
 				boucleTirer(index,17);
 			}
 		}// Fin croupier 7
+		
+		// Si le croupier a 6
+		else if (mainCroupier.get(0) == 6 || mainCroupier.get(0) == 5) {
+			if(getValCartes(index, 0) == "As" && getValCartes(index, 1) == "As"){
+				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
+			}
+			else if((getValCartes(index, 0) == "Neuf" && getValCartes(index, 1) == "Neuf") || (getValCartes(index, 0) == "Huit" && getValCartes(index, 1) == "Huit") || (getValCartes(index, 0) == "Sept" && getValCartes(index, 1) == "Sept") || (getValCartes(index, 0) == "Six" && getValCartes(index, 1) == "Six") ||(getValCartes(index, 0) == "Quatre" && getValCartes(index, 1) == "Quatre") || (getValCartes(index, 0) == "Trois" && getValCartes(index, 1) == "Trois") || (getValCartes(index, 0) == "Deux" && getValCartes(index, 1) == "Deux")) {
+				split(index);
+				tirerBot(index);
+				tirerBotSplit(index);
+				if (joueurs[index].totalMainSplit() == 21 ) {
+					joueurs[index].hasBjSplit();
+				}
+				if(joueurs[index].total() == 21) {
+					joueurs[index].hasBj();
+				}
+				boucleTirer(index,17);
+				while(joueurs[index].totalMainSplit() < 17){
+					tirerBotSplit(index);
+				}
+			}
+			else if (joueurs[index].total() == 9 || joueurs[index].total() == 10 || joueurs[index].total() == 11) {
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			else if((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Sept" || getValCartes(index, 1) == "Sept") || (getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Six" || getValCartes(index, 1) == "Six")){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			else if((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Cinq" || getValCartes(index, 1) == "Cinq") || (getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Quatre" || getValCartes(index, 1) == "Quatre")){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			else if((getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Trois" || getValCartes(index, 1) == "Trois") || (getValCartes(index,0) == "As" || getValCartes(index, 1) == "As") && (getValCartes(index,0) == "Deux" || getValCartes(index, 1) == "Deux")){
+				doubler(index);
+				joueurs[index].hasDouble();
+			}
+			else {
+				boucleTirer(index,9);
+			}
+				
+		}
 
 		/* ===================(Partie extraite de l'algo Niveau 2)==================== */
 		//Le croupier a 2 
@@ -556,7 +606,7 @@ private int modeDeJeu;
 			boucleTirer(index, 13);
 		}// Endif 3 main de départ
 		// Cas où le croupier à un quatre,cinq ou six comme main de départ
-		else if (mainCroupier.get(0) == 4 || mainCroupier.get(0) == 5 || mainCroupier.get(0) == 6) {
+		else if (mainCroupier.get(0) == 4) {
 			// Cas où le joueur a une main du type (As,Trois), (As,Dix), mais pas (As,As)
 			if ((joueurs[index].getMainStr().get(0) == "As" || joueurs[index].getMainStr().get(1) == "As") && (joueurs[index].getMainStr().get(0) != "As" || joueurs[index].getMainStr().get(1) != "As")){
 				boucleTirer(index, 19);
