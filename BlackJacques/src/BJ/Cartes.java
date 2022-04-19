@@ -242,7 +242,7 @@ private int modeDeJeu;
 		     System.out.println("\nMain du croupier apr�s tirage : " + mainNomCroupier);
 		     System.out.println("\nMain du croupier apr�s tirage : " + mainCroupier);
 	     }
-		 if (total() > 17) {
+		 if (total() >= 17) {
 			 System.out.println("\nMain du croupier final : " + mainNomCroupier);
 		 }
 		 return mainNomCroupier.get(0);
