@@ -34,28 +34,36 @@ private int modeDeJeu;
         case 1:
             do {
                 System.out.println("Vous avez choisis le premier mode,\n");
-                System.out.println("Combien de joueurs ? (Min : 2, Max : 6)");
-                nbparticipants = alpha.nextInt();
+                nbparticipants = 4;
 
 
             } while (nbparticipants > 6 || nbparticipants < 0);
             joueurs = new Joueur[nbparticipants];
 
-            for (int i =0; i<nbparticipants;i++) {
-               String nom;
-               int v = i+1;
-               System.out.println("\nNom du joueur " + v);
-               nom = alpha.next();
-               joueurs[i] = new Joueur();
-               joueurs[i].nomJoueur(nom);
+            
+            String name;
+            System.out.println("\nQuel est votre nom ? ");
+            name = alpha.next();
+            joueurs[3] = new Joueur();
+            joueurs[3].nomJoueur(name);
+        	joueurs[0] = new Joueur(); // création du bot de niveau 1
+        	joueurs[0].nomJoueur("IA de niveau 1");
+        	joueurs[1] = new Joueur(); // création du bot de niveau 2
+        	joueurs[1].nomJoueur("IA de niveau 2");
+        	joueurs[2] = new Joueur(); // création du bot de niveau 3
+        	joueurs[2].nomJoueur("IA de niveau 3");
+        	joueurs[0].isABot();
+        	joueurs[1].isABot();
+        	joueurs[2].isABot();
+        	for (int i = 0;i<nbparticipants;i++) {
+        		joueurs[i].setBanque(100);
         	}
-
-            //joueurs[nbparticipants-1] = new Joueur();
-            //joueurs[nbparticipants-1].nomJoueur("Bot Pol");
+           
 
                 break;
             case 2:
-                System.out.println("Testons l'efficacité des différents bots sur un grand nombre de main !\n");
+                
+            	System.out.println("Testons l'efficacité des différents bots sur un grand nombre de main !\n");
 				nbparticipants = 3;
 				for( int i = 0; i<3; i++){
 					String nom;
@@ -65,6 +73,7 @@ private int modeDeJeu;
 					joueurs[i].nomJoueur(nom);
 					System.out.println(joueurs[i].getNom());
 					joueurs[i].isABot();
+					joueurs[i].setBanque(100000);
 				}
                 break;
             default :
@@ -77,16 +86,17 @@ private int modeDeJeu;
 	public void miser() {
 		System.out.println("Il faut désormais miser.");
 		for (int i = 0;i<nbparticipants;i++) {
+			
 			if(joueurs[i].getIsABot()){
 				joueurs[i].miser(2);
 				System.out.println("Le bot"+i+" a misé 2 !");
 			}
 			else{
-				System.out.println(joueurs[i].getNom() + " quelle somme voulez vous miser ? (rappel du montant de votre banque : " + joueurs[i].getBanque() + ")");
-				int mise = alpha.nextInt();
-				joueurs[i].miser(mise);
+				System.out.println(joueurs[i].getNom() + " vous misez 2 car la mise n'a aucune incidence sur les performances globales (en terme de % de réussite) et le but et de comparer les IA");
+				joueurs[i].miser(2);
 				System.out.println("Votre mise est donc de " + joueurs[i].getMise());
 			}
+			
 		}
 	}
 	

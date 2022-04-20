@@ -21,7 +21,6 @@ public class Joueur {
 
 
     public Joueur() {
-        banque = 100000;
         mains = new ArrayList<Integer>(15);
         mainstr = new ArrayList<String>(15);
         mainsintsplit =  new ArrayList<Integer>(15);
@@ -60,6 +59,9 @@ public class Joueur {
        return somme;
    }
 
+    public void setBanque(int depart) {
+    	banque = depart;
+    }
     public int getBanque() {
         return banque;
     }
@@ -89,7 +91,7 @@ public class Joueur {
         mise = 0;
     }
     public void blackjack() {
-        banque += mise * 2.5;
+    	banque += mise * 2.5 ;
         mise = 0;
     }
     public void egalite() {
