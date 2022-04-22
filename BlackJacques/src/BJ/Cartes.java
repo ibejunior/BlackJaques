@@ -2,6 +2,7 @@ package BJ;
 
 
 
+import java.io.IOException;
 import java.util.*;
 
 public class Cartes {
@@ -24,12 +25,17 @@ private int modeDeJeu;
 		tirer = true;
 	}
 	
-	public void initialisation() {
-        System.out.println("===========================\n");
+	public void initialisation() throws IOException {
+        boolean afaitSonChoix = false;
+		System.out.println("===========================\n");
         System.out.println("Choisissez un mode de jeu :\n");
         System.out.println("-1) Mode de jeu classique.\n");
         System.out.println("-2) Testez la différence entre les bots.\n");
+        do {
+        	try {
+        		
         modeDeJeu =  alpha.nextInt();
+        afaitSonChoix = true;
         switch(modeDeJeu) {
         case 1:
             do {
@@ -58,7 +64,7 @@ private int modeDeJeu;
         	for (int i = 0;i<nbparticipants;i++) {
         		joueurs[i].setBanque(100);
         	}
-           
+            
 
                 break;
             case 2:
@@ -77,9 +83,16 @@ private int modeDeJeu;
 				}
                 break;
             default :
-                System.out.println("La valeur donnée n'est pas adéquate");
+                System.out.println("La valeur donnée n'est pas adéquate.");
+                afaitSonChoix = false;
                 break;
             }
+        	}catch (InputMismatchException e) {
+    			System.out.println("La valeur donnée n'est pas adéquate.");
+    			alpha.nextLine();
+        	}
+  
+        	}while(!afaitSonChoix);
     }
 	
 	
@@ -118,7 +131,7 @@ private int modeDeJeu;
 	}
 	
 	        
-	public void tirerjoueur() {
+	public void tirerjoueur() throws IOException{
 		for (int j=0;j<nbparticipants;j++) {
             for (int i =0;i<2;i++) {
 	            joueurs[j].addint(paquet.getPaquet().get(0));
@@ -146,54 +159,69 @@ private int modeDeJeu;
 				}
 			}
 			else{
+				boolean afaitSonChoix = false;
 				System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
 				tirer = true;
 				if (joueurs[i].total() == 21 ) {
   	    			 joueurs[i].hasBj();
   	    		}
-				while (tirer && joueurs[i].total() < 21) {
-
+				do {
+					try {
+						while (tirer && joueurs[i].total() < 21) {
 	             	System.out.println("Au tour de " + joueurs[i].getNom());
-	    	     	int a;
-	             	a = Saisie.lireEntier("\n Voulez vous : \n 1-tirer une carte \n 2-Doubler \n 3-Split (seulement si vous avez deux cartes identiques) \n 4-Arrêter de tirer"
+	    	     	int choix;
+	             	System.out.println("\n Voulez vous : \n 1-tirer une carte \n 2-Doubler \n 3-Split (seulement si vous avez deux cartes identiques) \n 4-Arrêter de tirer"
 	             		+ "\n rappel de votre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")" );
-	    	     	if (a == 1) {
+	             	choix = alpha.nextInt();
+	             	System.out.println("Il vient de choisir" + choix);
+	             	afaitSonChoix = true;
+	             	switch(choix) {
+	             	
+	        
+	             	
+	             	case 1 :
 	    	    		System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 	    	    		joueurs[i].addstr(paquet.getPaquetNom().get(0));
 	    	    		joueurs[i].addint(paquet.getPaquet().get(0));
 	    	        	paquet.getPaquetNom().remove(0);
 	    	        	paquet.getPaquet().remove(0);
 	    	    		System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
-	    	        }
-	    	     	else if (a==2) {
+	    	    		break;
+	    	        
+	             	case 2 :
 	    	    		System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 	    	    		doubler(i);
 	    	    		joueurs[i].hasDouble();
 	    	    		System.out.println("\nVous avez bien doublé ! Votre mise est desormais de " + joueurs[i].getMise() + " et votre main final est " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")");
 	    	    		tirer = false;
-	    	     	}
-	    	     	else if (a == 3 && joueurs[i].getMain().get(0) != joueurs[i].getMain().get(1)) {
-	    	    	 	System.out.println("Impossible de Split, vous n'avez pas deux cartes identiques, veuillez réessayer");
+	    	    		break;
+	    	     	
+	             	case 3 :
+	             		boolean fonctionne = true;
+	    	     	    while(fonctionne) {
+	    	     	    	if (joueurs[i].getMain().get(0) != joueurs[i].getMain().get(1)) {
+	    	     	    		System.out.println("Impossible de Split, vous n'avez pas deux cartes identiques, veuillez réessayer");
 	    	    	 
 	    	     	}
-	    	     	else if (a==3) {
-	    	    		System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
-	    	    		joueurs[i].addintSplit(joueurs[i].getMain().get(1));
-	    				joueurs[i].addstrSplit(joueurs[i].getMainStr().get(1));
-	    				joueurs[i].getMain().remove(1);
-	    				joueurs[i].getMainStr().remove(1);
-	    				joueurs[i].hassplit();
-	    				joueurs[i].miserSplit(joueurs[i].getMise());
-	    	    		System.out.println("\nVous avez décidé de split votre main ! Vous devez maintenant jouer deux mains, qui sont : " + joueurs[i].getMainStr() + " et " + joueurs[i].getMainSplitstr());
-	    	    		System.out.println("Commencez à tirer pour votre première main qui est " + joueurs[i].getMainStr());
-	    	    		int b = Saisie.lireEntier("\n Faites 1 pour tirer et autre chose pour arrêter de tirer cette main ");
-	    	    		while (b == 1) {
-	    	    			joueurs[i].addstr(paquet.getPaquetNom().get(0));
-		    	    		joueurs[i].addint(paquet.getPaquet().get(0));
-		    	        	paquet.getPaquetNom().remove(0);
-		    	        	paquet.getPaquet().remove(0);
-		    	        	if (joueurs[i].getMainStr().size() == 2 && joueurs[i].total() == 21) {
-		    	        		joueurs[i].hasBj();
+	    	     	    	else{
+	    	     	    	fonctionne = false;
+	    	     	    	System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
+	    	     	    	joueurs[i].addintSplit(joueurs[i].getMain().get(1));
+	    	     	    	joueurs[i].addstrSplit(joueurs[i].getMainStr().get(1));
+	    	     	    	joueurs[i].getMain().remove(1);
+	    	     	    	joueurs[i].getMainStr().remove(1);
+	    	     	    	joueurs[i].hassplit();
+	    	     	    	joueurs[i].miserSplit(joueurs[i].getMise());
+	    	     	    	System.out.println("\nVous avez décidé de split votre main ! Vous devez maintenant jouer deux mains, qui sont : " + joueurs[i].getMainStr() + " et " + joueurs[i].getMainSplitstr());
+	    	     	    	System.out.println("Commencez à tirer pour votre première main qui est " + joueurs[i].getMainStr());
+	    	     	    	int b = Saisie.lireEntier("\n Faites 1 pour tirer et autre chose pour arrêter de tirer cette main ");
+	    	     	    	while (b == 1) {
+	    	     	    		joueurs[i].addstr(paquet.getPaquetNom().get(0));
+	    	     	    		joueurs[i].addint(paquet.getPaquet().get(0));
+	    	     	    		paquet.getPaquetNom().remove(0);
+	    	     	    		paquet.getPaquet().remove(0);
+	    	     	    		if (joueurs[i].getMainStr().size() == 2 && joueurs[i].total() == 21) {
+	    	     	    			joueurs[i].hasBj();
 		    	        	}
 		    	        System.out.println("\nVotre main : " + joueurs[i].getMainStr() + " (" + joueurs[i].total() + ")");
 		    	        b = Saisie.lireEntier("\n Souhaitez vous retirer une nouvelle carte ? (1 si oui, autre si non)");
@@ -213,10 +241,23 @@ private int modeDeJeu;
 	    	    		}	
 	    	    		tirer = false;
 	    	     	}
-	    	     	else {
+	    	     	    }
+	    	     	    break;
+	             	
+	             	case 4:
 	    	    		tirer = false;
-	    	    	}     
-	    	}
+	    	    		break;
+	             	
+	             	default :
+	             		System.out.println("Veuillez renseigner une valeur adéquate");
+	             	}
+	             		
+				}
+					} catch (InputMismatchException e) {
+	        			System.out.println("Veuillez renseigner une valeur adéquate");
+	        			alpha.nextLine();
+	        		}
+	    	}while(!afaitSonChoix);
 				}
 			
 	    }

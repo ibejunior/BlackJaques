@@ -2,12 +2,13 @@
 
 package BJ;
 import java.util.ArrayList;
+import java.io.IOException;
 import java.util.*;
 
 
 public class TestCartes {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
     	
 		//Génère un paquet avec que des entiers
