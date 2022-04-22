@@ -25,7 +25,7 @@ public class TestCartes {
 
     	p1.initialisation();
 		if(p1.getModeDeJeu() == 1){
-			for (int i=0;i<2;i++) {
+			for (int i=0;i<10;i++) {
 				p1.renitialisation();
 				p1.miser();
 				p1.croupierdep(); 
