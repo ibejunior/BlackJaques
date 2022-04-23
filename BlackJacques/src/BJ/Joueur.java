@@ -18,6 +18,8 @@ public class Joueur {
     private boolean hassplit = false;
     private boolean hasDouble = false;
     private boolean isABot = false;
+    private int win = 0;
+    private int egalite = 0;
 
 
     public Joueur() {
@@ -69,6 +71,13 @@ public class Joueur {
         banque -= mise;
         mise = 0;
     }
+    
+    public void addWin() {
+    	win += 1;
+    }
+    public int getWin() {
+    	return win;
+    }
     public void victoire() {
         banque += 2*mise;
         mise = 0;
@@ -96,7 +105,11 @@ public class Joueur {
     }
     public void egalite() {
         banque += mise;
+        egalite += 1;
         mise = 0;
+    }
+    public int getEgalite() {
+    	return egalite;
     }
     public void miser(int bet) {
         mise = bet;
