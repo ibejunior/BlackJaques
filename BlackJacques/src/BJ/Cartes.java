@@ -287,13 +287,14 @@ private int modeDeJeu;
 			 return mainNomCroupier;
 	 }
 	 public String croupiertirer() {
+		 System.out.println("La main du croupier avant tirage est : " + mainNomCroupier + "( " + total() + ")");
+		 int i = 0;
 		 while (total() < 17) {
 	    	 mainCroupier.add((paquet.getPaquet().get(0)));
 		     mainNomCroupier.add(paquet.getPaquetNom().get(0));
 		     paquet.getPaquet().remove(0);
 		     paquet.getPaquetNom().remove(0);
-		     System.out.println("\nMain du croupier apr�s tirage : " + mainNomCroupier);
-		     System.out.println("\nMain du croupier apr�s tirage : " + mainCroupier);
+		     System.out.println("\nMain du croupier apres tirage : " + mainNomCroupier +  "( " + total() + ")");
 	     }
 		 if (total() >= 17) {
 			 System.out.println("\nMain du croupier final : " + mainNomCroupier);
