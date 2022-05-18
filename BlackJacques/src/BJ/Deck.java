@@ -1,31 +1,43 @@
 package BJ;
+/**
+ * Cette classe permet la generation du deck avec lequel nous allons jouer.
+ */
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Deck {
 	private ArrayList<Integer> jeu;
 	private ArrayList<String> jeunoms;
-		
+		/**
+		 * Constructeur de la classe deck
+		 */
 		public Deck() {
-			jeu = new ArrayList<Integer>(312);
+			jeu = new ArrayList<Integer>(312); // On va generer un deck de 312 cartes
 			jeunoms = new ArrayList<String>(312);
 		}
-		
-		public void generateur() {
+		/**
+		 * Permet la generation du paquet, en ajoutant toutes les cartes selons leurs valeurs
+		 */
+		public void generateur() { 
 			for (int i = 1; i<14;i++) {
 				for (int j = 0;j<24;j++) {
 					jeu.add(i);
 				}
 			}
 		}
-		
+		/**
+		 * Reinitialise le jeu
+		 */
 		public void reinitialisation() {
 			jeu.clear();
 			jeunoms.clear();
 		}
-
+		/**
+		 * Convertit les tetes en 10, leurs valeurs dans le jeu du Blackjack
+		 */
 		public void conversion() {
 			for (int i = 0; i<312;i++) {
 				if (jeu.get(i) > 10) {
@@ -33,7 +45,9 @@ public class Deck {
 				}
 			}
 		}
-		
+		/**
+		 * Creation du des string pour le paquet 
+		 */
 		public void creation() {
 			for (int i = 0; i<312;i++) {
 				if (jeu.get(i) == 1) {
@@ -78,7 +92,9 @@ public class Deck {
 			}
 		}
 		
-		
+		/**
+		 * Permet de melanger le jeu
+		 */
 		public void shuffle() {
 			Collections.shuffle(jeu);
 		}
