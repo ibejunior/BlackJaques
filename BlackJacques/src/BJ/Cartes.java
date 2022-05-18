@@ -7,17 +7,16 @@ import java.util.*;
 
 public class Cartes {
 
-private Scanner alpha = new Scanner(System.in);
-private ArrayList<Integer> mainCroupier;
-private ArrayList<String> mainNomCroupier;
-private Joueur[] joueurs;
-private Deck paquet;
-private boolean tirer;
-private int nbparticipants;
-private int modeDeJeu;
+	private Scanner alpha = new Scanner(System.in);
+	private ArrayList<Integer> mainCroupier;
+	private ArrayList<String> mainNomCroupier;
+	private Joueur[] joueurs;
+	private Deck paquet;
+	private boolean tirer;
+	private int nbparticipants;
+	private int modeDeJeu;
 	
 	public Cartes(Deck paquet) {
-		
 		mainCroupier = new ArrayList<Integer>(5);
 		mainNomCroupier = new ArrayList<String>(5);
 		joueurs = new Joueur[6];
@@ -28,78 +27,74 @@ private int modeDeJeu;
 	public void initialisation() throws IOException {
         boolean afaitSonChoix = false;
 		System.out.println("===========================\n");
-        System.out.println("Choisissez un mode de jeu :\n");
+        System.out.println("Choisissez un mode de jeu : \n");
         System.out.println("-1) Mode de jeu classique.\n");
         System.out.println("-2) Testez la différence entre les bots.\n");
         do {
-        	try {
-        		
-        modeDeJeu =  alpha.nextInt();
-        afaitSonChoix = true;
-        switch(modeDeJeu) {
-        case 1:
-            do {
-                System.out.println("Vous avez choisis le premier mode,\n");
-                nbparticipants = 4;
-
-
-            } while (nbparticipants > 6 || nbparticipants < 0);
-            joueurs = new Joueur[nbparticipants];
-
-            
-            String name;
-            System.out.println("\nQuel est votre nom ? ");
-            name = alpha.next();
-            joueurs[3] = new Joueur();
-            joueurs[3].nomJoueur(name);
-        	joueurs[0] = new Joueur(); // création du bot de niveau 1
-        	joueurs[0].nomJoueur("IA de niveau 1");
-        	joueurs[1] = new Joueur(); // création du bot de niveau 2
-        	joueurs[1].nomJoueur("IA de niveau 2");
-        	joueurs[2] = new Joueur(); // création du bot de niveau 3
-        	joueurs[2].nomJoueur("IA de niveau 3");
-        	joueurs[0].isABot();
-        	joueurs[1].isABot();
-        	joueurs[2].isABot();
-        	for (int i = 0;i<nbparticipants;i++) {
-        		joueurs[i].setBanque(100);
-        	}
-            
-
-                break;
-            case 2:
-                
-            	System.out.println("Testons l'efficacité des différents bots sur un grand nombre de main !\n");
-				nbparticipants = 3;
-				for( int i = 0; i<3; i++){
-					String nom;
-					int v = i+1;
-					nom = "Bot " + v;
-					joueurs[i] = new Joueur();
-					joueurs[i].nomJoueur(nom);
-					System.out.println(joueurs[i].getNom());
-					joueurs[i].isABot();
-					joueurs[i].setBanque(100000);
-				}
-                break;
-            default :
-                System.out.println("La valeur donnée n'est pas adéquate.");
-                afaitSonChoix = false;
-                break;
-            }
+        	try {	
+        		modeDeJeu =  alpha.nextInt();
+        		afaitSonChoix = true;
+        		switch(modeDeJeu) {
+        		case 1:
+        			do {
+        				System.out.println("Vous avez choisi le premier mode :\n");
+        				nbparticipants = 4;
+        			} while (nbparticipants > 6 || nbparticipants < 0);
+        			joueurs = new Joueur[nbparticipants];     
+        			String name;
+        			System.out.println("\nQuel est votre nom ? ");
+        			name = alpha.next();
+        			joueurs[3] = new Joueur();
+        			joueurs[3].nomJoueur(name);
+        			joueurs[0] = new Joueur(); // creation du bot de niveau 1
+        			joueurs[0].nomJoueur("IA de niveau 1");
+        			joueurs[1] = new Joueur(); // creation du bot de niveau 2
+        			joueurs[1].nomJoueur("IA de niveau 2");
+        			joueurs[2] = new Joueur(); // creation du bot de niveau 3
+        			joueurs[2].nomJoueur("IA de niveau 3");
+        			joueurs[0].isABot();
+        			joueurs[1].isABot();
+        			joueurs[2].isABot();
+        			for (int i = 0;i<nbparticipants;i++) {
+        				joueurs[i].setBanque(100);
+        			}
+        			break;
+                //Fin du cas 1
+                //Début du cas 2
+        		case 2:
+        			System.out.println("Testons l'efficacite des differents bots sur un grand nombre de main !\n");
+        			nbparticipants = 3;
+        			for( int i = 0; i<3; i++){
+        				String nom;
+        				int v = i+1;
+        				nom = "Bot " + v;
+        				joueurs[i] = new Joueur();
+        				joueurs[i].nomJoueur(nom);
+        				System.out.println(joueurs[i].getNom());
+        				joueurs[i].isABot();
+        				joueurs[i].setBanque(100000);
+        			}//Fin du for
+        			break;
+                //Fin du cas 2
+                //Début du cas par defaut
+        		default :
+        			System.out.println("La valeur donnee n'est pas adequate.");
+        			afaitSonChoix = false;
+                	break;
+                //Fin du cas par defaut
+        		}//Fin du Switch
+        	
         	}catch (InputMismatchException e) {
-    			System.out.println("La valeur donnée n'est pas adéquate.");
+    			System.out.println("La valeur donnee n'est pas adequate.");
     			alpha.nextLine();
-        	}
-  
-        	}while(!afaitSonChoix);
-    }
+        	}//Fin du Try/catch
+        }while(!afaitSonChoix);//Fin du do/while
+    }//Fin de la methode initialisation 
 	
 	
 	public void miser() {
 		System.out.println("Il faut désormais miser.");
 		for (int i = 0;i<nbparticipants;i++) {
-			
 			if(joueurs[i].getIsABot()){
 				joueurs[i].miser(2);
 				System.out.println("Le bot"+i+" a misé 2 !");

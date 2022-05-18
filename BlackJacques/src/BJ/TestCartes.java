@@ -11,10 +11,11 @@ public class TestCartes {
 	public static void main(String[] args) throws IOException {
 
     	
-		//Génère un paquet avec que des entiers
+		//Genere un paquet avec uniquement des entiers
 		Deck paquet = new Deck();
 		//Paquet d'affichage
 		Deck paquetnom = new Deck();
+		
 		paquet.generateur();
     	paquet.shuffle();
     	paquetnom = paquet;
