@@ -1,13 +1,12 @@
 package BJ;
-
-
-
 import java.io.IOException;
 import java.util.*;
+
 /**
- * 
- * @author arthu
- *
+ * Contient toutes les fonctions permettant 
+ * de realiser plusieurs parties de blackjack
+ * ainsi que les methodes des IA que nous 
+ * avons implementees.
  */
 public class Cartes {
 
@@ -21,12 +20,16 @@ public class Cartes {
 	private int modeDeJeu;
 	
 	/**
-	 * Constructeur de la classe Cartes
+	 * Constructeur de la classe Cartes, compose de la 
+	 * main du croupier qui sera compose de 10 cartes 
+	 * maximum, une liste de joueurs compose de 6 
+	 * joueurs maximum, d'un paquet de carte et d'un 
+	 * boolean pour voir si le joueur a tirer.
 	 * @param paquet
 	 */
 	public Cartes(Deck paquet) {
-		mainCroupier = new ArrayList<Integer>(5);
-		mainNomCroupier = new ArrayList<String>(5);
+		mainCroupier = new ArrayList<Integer>(10);
+		mainNomCroupier = new ArrayList<String>(10);
 		joueurs = new Joueur[6];
 		this.paquet = paquet;
 		tirer = true;
@@ -116,10 +119,12 @@ public class Cartes {
 	public void miser() {
 		System.out.println("Il faut désormais miser.");
 		for (int i = 0;i<nbparticipants;i++) {
+			//Si le joueur est un bot, on le fait tirer 2 automatiquement
 			if(joueurs[i].getIsABot()){
 				joueurs[i].miser(2);
 				System.out.println("Le bot"+i+" a misé 2 !");
 			}
+			//Sinon, le joueur choisi sa mise.
 			else{
 				System.out.println(joueurs[i].getNom() + " vous misez 2 car la mise n'a aucune incidence sur les performances globales (en terme de % de réussite) et le but et de comparer les IA");
 				joueurs[i].miser(2);
@@ -130,6 +135,7 @@ public class Cartes {
 	
 	/**
 	 * Methode permettant de generer un paquet 
+	 * compose de 312 cartes.
 	 */
 	public void generateur() {
 		for (int i = 1; i<14;i++) {
@@ -140,31 +146,37 @@ public class Cartes {
 	}   	
 	
 	/**
-	 *         
+	 * La methode permet pour chaque joueur
+	 * de gerer les differentes possibilitees
+	 * de jeu durant une partie en respectant
+	 * toutes les regles du blackjack.        
 	 * @throws IOException
 	 */
 	public void tirerjoueur() throws IOException{
 		for (int j=0;j<nbparticipants;j++) {
             for (int i =0;i<2;i++) {
+            	//On donne 2 cartes des le debut a tous les joueurs
 	            joueurs[j].addint(paquet.getPaquet().get(0));
     	        joueurs[j].addstr(paquet.getPaquetNom().get(0));
 	            paquet.getPaquet().remove(0);
     	        paquet.getPaquetNom().remove(0); 
             }//Fin du for i
+            //Affichage de la main de chaque joueur
             System.out.println("Main de " + joueurs[j].getNom() + " " + joueurs[j].getMainStr() + ", votre banque est d'une valeur de " + joueurs[j].getBanque() );
 	    }//Fin du for j
        
 		
 		for (int i=0;i<nbparticipants;i++) {
+			//Si les joueurs sont des bots alors : 
 			if(joueurs[i].getIsABot()){
 				if (i == 0) {
-					algoLevel1(0);	
+					algoLevel1(0);//Le premier bot va suivre l'ia de niveau 1	
 				}
 				else if (i == 1) {
-					algoLevel2(1);
+					algoLevel2(1);//Le second bot va suivre l'ia de niveau 2
 				}
 				else {
-					algoLevel3(2);
+					algoLevel3(2);//Le Troisieme bot va suivre l'ia de niveau 3
 				}
 			}//Fin du if joueurs[i].getIsABot()
 			
@@ -172,6 +184,7 @@ public class Cartes {
 				boolean afaitSonChoix = false;
 				System.out.println("La main du croupier est [" + mainNomCroupier.get(0) + ", ?]");
 				tirer = true;
+				//On regarde si les joueurs ont eu un blackjack avec les 2 premieres cartes
 				if (joueurs[i].total() == 21 ) {
 					joueurs[i].hasBj();
   	    		}
@@ -186,6 +199,7 @@ public class Cartes {
 							afaitSonChoix = true;
 							switch(choix) {
 							case 1 :
+								//Dans ce cas le joueur va piocher une nouvelle carte
 								System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 								joueurs[i].addstr(paquet.getPaquetNom().get(0));
 								joueurs[i].addint(paquet.getPaquet().get(0));
@@ -196,6 +210,7 @@ public class Cartes {
 								//Fin du cas 1
 							//Debut du cas 2
 							case 2 :
+								//Dans ce cas le joueur va doubler sa mise et tirer une seule carte.
 								System.out.println("\nVotre main : " + joueurs[i].getMainStr() + "\n");
 								doubler(i);
 								joueurs[i].hasDouble();
@@ -205,6 +220,7 @@ public class Cartes {
 								//Fin du cas 2
 							//Debut du cas 3
 							case 3 :
+								//Dans ce cas le joueur va split, et va donc obtenir deux mains au lieu d'une seule au depart.
 								if (joueurs[i].getMain().get(0) != joueurs[i].getMain().get(1)) {
 									System.out.println("Impossible de Split, vous n'avez pas deux cartes identiques, veuillez reessayer");
 									afaitSonChoix = false;
@@ -250,6 +266,7 @@ public class Cartes {
 								//Fin du cas 3
 							//Debut du cas 4	             	
 							case 4:
+								//Dans ce cas, on ne tire pas, on dit qu'on "reste".
 								tirer = false;
 								break;
 								//Fin du cas 4

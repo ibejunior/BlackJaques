@@ -1,11 +1,9 @@
 package BJ;
+import java.util.*;
+
 /**
  * Contient toutes les informations d'un joueur
  */
-
-
-import java.util.*;
-
 public class Joueur {
 
     private String nom; // Chaque joueur a un nom

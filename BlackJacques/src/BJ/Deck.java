@@ -1,13 +1,10 @@
 package BJ;
-/**
- * Cette classe permet la generation du deck avec lequel nous allons jouer.
- */
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Cette classe permet la generation du deck avec lequel nous allons jouer.
+ */
 public class Deck {
 	private ArrayList<Integer> jeu;
 	private ArrayList<String> jeunoms;
