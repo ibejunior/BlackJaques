@@ -978,6 +978,8 @@ public class Cartes {
 	/**
 	 * 
 	 */
+	
+	/*
 	public void conversion() {
 		for (int i = 0; i<312;i++) {
 			if (paquet.getPaquet().get(i) > 10) {
@@ -985,6 +987,8 @@ public class Cartes {
 			}
 		}
 	}
+	*
+	*/
 	
 	/**
 	 * 
