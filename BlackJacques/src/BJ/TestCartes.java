@@ -1,5 +1,4 @@
 package BJ;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.util.*;
 
@@ -12,6 +11,7 @@ public class TestCartes {
 		Deck paquet = new Deck();  
 		Deck paquetnom = new Deck();
 		Cartes p1 = new Cartes(paquet);  
+		Scanner alpha = new Scanner(System.in);
 		
 		paquet.generateur(); // Generation d'un paquet de 312 cartes 
     	paquet.shuffle();  // On melange le paquet
@@ -19,16 +19,34 @@ public class TestCartes {
     	paquetnom.creation(); // On genere un paquet avec le nom des cartes, identiques au precedent
     	paquet.conversion(); // On convertit les tetes en 10
     	p1.initialisation();  
+    	int nbParties = 0;
+    	boolean afaitsonChoix = true;
+
 		if (p1.getModeDeJeu() == 1){  // Cas du mode de jeu joueur VERSUS IAS
-			for (int i=0;i<10;i++) {
-				p1.renitialisation();  // On vide la main du joueur
-				p1.miser();  // Le joueur mise
-				p1.croupierDepart(); 
-				p1.tirerjoueur(); // Le joueur tire avant le croupier
-				p1.croupierTirer();  // Le croupier tire
-				p1.gagnant();  // On regarde le resultat du joueur
-			}
-		}
+			do {
+				try {
+					System.out.println("Combien de parties voulez vous effectuer ? ");
+					nbParties = alpha.nextInt();
+					afaitsonChoix = true;
+					for (int i=0;i<nbParties;i++) {
+						p1.renitialisation();  // On vide la main du joueur
+						p1.miser();  // Le joueur mise
+						p1.croupierDepart(); 
+						p1.tirerjoueur(); // Le joueur tire avant le croupier
+						p1.croupierTirer();  // Le croupier tire
+						p1.resultat();  // On regarde le resultat du joueur
+					}
+				
+					}catch (InputMismatchException e) {
+						System.out.println("La valeur donnee n'est pas adequate.");
+						alpha.nextLine();
+					} // Fin du try catch
+				if (nbParties < 0) {
+				afaitsonChoix = false;
+				} // Fin du if nbParties
+			} while(nbParties < 0 && !afaitsonChoix); // Fin du Do/while
+			alpha.close();
+			} // Fin du if
 		else if(p1.getModeDeJeu() == 2){
 			System.out.println("100 000 parties vont etre jouees pour tester les bots ! ");  /* Nous estimons que 100 000 parties permet d'avoir un resultat avec peu d'aleatoire pour bien differencier
 			la difference de niveau entre les bots. */
@@ -46,7 +64,7 @@ public class TestCartes {
 				p1.croupierDepart();
 				p1.tirerjoueur();
 				p1.croupierTirer();
-				p1.gagnant();
+				p1.resultat();
 			}
 			p1.afficheJoueurPourcentage(); // Permet de comparer les resultats finaux des differentes IAS.
 		}
